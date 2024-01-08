@@ -4,6 +4,7 @@ import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import Room from './Components/Pages/Room';
 import Users from './Components/Pages/Users';
 import Navbar from './Components/UI/Navbar';
+import Package from './Components/Pages/packages';
 
 
 
@@ -19,6 +20,7 @@ function App() {
         
         <Route path='/roomcreation' element={<Room></Room>}></Route>
         <Route path='/userpage' element={<Users></Users>}></Route>
+        <Route path='/package' element={<Package></Package>}></Route>
         
       </Routes>
       </BrowserRouter>
