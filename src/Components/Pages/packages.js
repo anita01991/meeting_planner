@@ -5,7 +5,7 @@ const Package = () => {
 let[packageList,setPackageList] = useState([]);
 let[packageObj,setPackageObj] = useState({"packageId": 0,
     "packageName": "",
-    "packageCost":"" ,
+    "packageCost":"",
     "packageDescription": "",
     "isPackageActive": false
   }
