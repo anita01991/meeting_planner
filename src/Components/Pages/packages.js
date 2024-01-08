@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 const Package = () => {
 
 let[packageList,setPackageList] = useState([]);
+let [isSave, setIsSave] = useState(false);
 let[packageObj,setPackageObj] = useState({"packageId": 0,
     "packageName": "",
-    "packageCost":"",
+    "packageCost":"" ,
     "packageDescription": "",
     "isPackageActive": false
   }
 )
+
+
+
 
 const resetFormValue =() => { 
     let prevId = packageObj.packageId;
@@ -20,6 +24,16 @@ const resetFormValue =() => {
     "isPackageActive": false
   } )
 }
+
+
+useEffect(() => {
+    getAllPackages();
+ 
+  
+
+}, [])
+
+
 const changeFormValue = (event, key) => {
    
     setPackageObj(prevObj => ({...prevObj, [key]:event.target.value}))
@@ -86,10 +100,11 @@ const editPackages = async (id) => {
                     <div className='card'>
                         <div className='card-header bg-success'>
                             <div className='row'>
-                                
-                                <div className='col-6 text-end'>
-                                    <button className='btn btn-sm btn-primary ' onClick={getAllPackages}>All Package</button>
-                                </div>
+                            <div className='col-12 text-center'>
+                                <strong>Package Data</strong>
+
+                            </div>
+                               
                             </div>
                         </div>
                         <div className='card-body'>
@@ -107,7 +122,7 @@ const editPackages = async (id) => {
                                 </thead>
                                 <tbody>
                                     {
-                                       packageList.map((item,index) => {
+                                    packageList.map((item,index) => {
                                             return (<tr>
                                                 <td> {index + 1} </td>
                                                 <td> {item.packageName} </td>
@@ -118,7 +133,7 @@ const editPackages = async (id) => {
                                                 <td>
                                                     <button className='btn btn-sm btn-primary' onClick={()=>{editPackages (item.packageId)}}>Edit</button>
 
-                                                    <button className='btn btn-sm btn-danger' onClick={()=>{deletePackages(item.packageId)}}>Delete</button>
+                                                    <button className='btn btn-sm btn-danger' onClick={()=>{deletePackages (item.packageId)}}>Delete</button>
                                                 </td>
                                             </tr>)
                                         })
@@ -131,7 +146,7 @@ const editPackages = async (id) => {
                 <div className='col-4'>
                     <div className='card'>
                         <div className='card-header bg-success'>
-                            Create New Package
+                          <b>Create New Package</b>  
                         </div>
                         <div className='card-body'>
                             <div className='row'>
@@ -165,7 +180,9 @@ const editPackages = async (id) => {
                                  
                              
                                  
-                                   {packageObj.packageId == 0 &&  <button className='btn btn-sm btn-success' onClick={createPackages}> Save package</button>}
+                                   {packageObj.packageId == 0 &&  <button className='btn btn-sm btn-success' onClick={createPackages}>{isSave && <span className='spinner-border spinner-border-sm'></span>} Save package</button>}
+
+                                 
                                   
                                    {packageObj.packageId !== 0 &&  <button className='btn btn-sm btn-warning' onClick={UpdatePackges}> Update package</button>}
                                 </div> 
