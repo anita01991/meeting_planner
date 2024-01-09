@@ -150,7 +150,7 @@ const Room = () => {
         <div className='row'>
             <div className='col-5'>
                 <div className='card'>
-                    <div className='card header bg-success'>
+                    <div className='card-header bg-success'>
                         <div className='row'>
                             <div className='col-12 text-center'>
                                 <strong>Room From</strong>
@@ -224,7 +224,7 @@ const Room = () => {
             </div>
             <div className='col-7'>
                 <div className='card'>
-                    <div className='card header bg-success'>
+                    <div className='card-header bg-success'>
                         <div className='row'>
                             <div className='col-12 text-center'>
                                 <strong>Room Data</strong>

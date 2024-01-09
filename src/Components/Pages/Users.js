@@ -153,7 +153,7 @@ const Users = () => {
             <div className='row'>
                 <div className='col-5'>
                     <div className='card'>
-                        <div className='card header bg-success'>
+                        <div className='card-header bg-success'>
                             <div className='row'>
                                 <div className='col-12 text-center'>
                                     <strong>Users From</strong>
@@ -225,7 +225,7 @@ const Users = () => {
                 </div>
                 <div className='col-7'>
                     <div className='card'>
-                        <div className='card header bg-success'>
+                        <div className='card-header bg-success'>
                             <div className='row'>
                                 <div className='col-12 text-center'>
                                     <strong>Users Data</strong>
