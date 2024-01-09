@@ -1,11 +1,10 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-    return (
+    return ( 
         <div>
 
-
+            
             <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="#">Meeting Room</a>
@@ -13,9 +12,10 @@ const Navbar = () => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className="nav-link " to="login" >Login</Link>
+                                <Link className="nav-link " to="dashboard" >Dashboard</Link>
                             </li>
                             <li className="nav-item">
+
                                 <Link className="nav-link active" aria-current="" to="client">Client</Link>
                             </li>
                             <li className="nav-item">
@@ -32,10 +32,14 @@ const Navbar = () => {
                             <li className="nav-item">
                                 <Link className="nav-link " to="clientpackage" > Client Package</Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link " to="booking" > Booking</Link>
+
+                            <li className="nav-item text-end">
+                                <Link className="nav-link " to="login" >Login</Link>
                             </li>
-                            
+
+                            {/* <li className="nav-item">
+                                <Link className="nav-link " to="package" >Package</Link>
+                            </li> */}
                         </ul>
 
                     </div>
