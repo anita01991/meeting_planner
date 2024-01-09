@@ -22,8 +22,8 @@ const ClientPackage = () => {
         "clientPackageId": 0,
         "clientId": 0,
         "packageId": 0,
-        "createdDate": " ",
-        "lastUpdated": " ",
+        "createdDate": newDate,
+        "lastUpdated": newDate,
         "packageStartDate": "",
         "packageEndDate": " ",
         "isActive": true
@@ -122,8 +122,8 @@ const ClientPackage = () => {
             "clientPackageId": '0',
             "clientId": '',
             "packageId": 0,
-            "createdDate": '',
-            "lastUpdated": '',
+            "createdDate": newDate,
+            "lastUpdated": newDate,
             "packageStartDate": "",
             "packageEndDate": " ",
             "isActive": ''
@@ -170,19 +170,7 @@ const ClientPackage = () => {
                                 </div>
 
                             </div>
-                            <div className='row'>
-                                <div className='col-6'>
-                                    <label>Created Date</label>
-                                    <input type='date' value={clientPackageObj.createdDate} onChange={(e) => changeFormValue(e, 'createdDate')} />
-
-                                </div>
-                                <div className='col-6'>
-                                    <label>Last Updated</label>
-                                    <input type='date' value={clientPackageObj.lastUpdated} onChange={(e) => changeFormValue(e, 'lastUpdated')} />
-
-                                </div>
-
-                            </div>
+                           
                             <div className='row pt-2'>
                                 <div className='col-6'>
                                     <label>Package Start Date</label>
@@ -232,8 +220,7 @@ const ClientPackage = () => {
                                         <th>Sr No</th>
                                         <th>Client Name</th>
                                         <th>Package Name</th>
-                                        <th>Created Date</th>
-                                        <th>Last Updated</th>
+                                       
                                         <th>Package Start Date</th>
                                         <th>Package End Date</th>
                                         <th>Action</th>
@@ -266,12 +253,13 @@ const ClientPackage = () => {
                                                         <td>{index + 1}</td>
                                                         <td>{item.clientName}</td>
                                                         <td>{item.packageName}</td>
-                                                        <td>{item.createdDate}</td>
-                                                        <td>{item.lastUpdated}</td>
+                                                        
                                                         <td>{item.packageStartDate}</td>
                                                         <td>{item.packageEndDate}</td>
                                                         <td>
                                                             <button className='btn btn-info btn-sm' onClick={() => ediClientPackage(item.clientPackageId)}>Edit</button>
+                                                            </td>
+                                                            <td>
                                                             <button className='btn btn-danger btn-sm' onClick={() => deleteClientPackage(item.clientPackageId)}>Delete</button>
 
                                                         </td>
