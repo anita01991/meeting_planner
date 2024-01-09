@@ -7,9 +7,6 @@ import Navbar from './Components/UI/Navbar';
 import Package from './Components/Pages/packages';
 import Client from './Components/Pages/Client';
 import ClientPackage from './Components/Pages/ClientPackage';
-import Login from './Components/Pages/login';
-import Booking from './Components/Pages/Booking';
-// import Dashboard from './Components/Pages/Dashboard'
 
 
 
@@ -28,11 +25,9 @@ function App() {
           <Route path='/userpage' element={<Users></Users>}></Route>
           <Route path='/package' element={<Package></Package>}></Route>
           <Route path='/client' element={<Client></Client>}></Route>
-          <Route path='clientpackage' element={<ClientPackage></ClientPackage>}></Route>
-          <Route path='/booking' element={<Booking></Booking>}></Route>
-          <Route path='/clientpackage' element={<ClientPackage></ClientPackage>}></Route>
-          
-
+          <Route path='clientpackage' element={<ClientPackage></ClientPackage> }></Route>
+          {/* <Route path='' element={}></Route>
+          <Route path='' element={}></Route> */}
 
         </Routes>
       </BrowserRouter>
