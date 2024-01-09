@@ -34,14 +34,72 @@ const Client = () => {
 
     }
 
-    const addClientData = () => {
+    const addClientData = async () => {
 
-        isSave(true);
+        setIsSave(true);
+        try {
+            let result = await axios.post(Api + 'AddClients', clientObj);
+            if (result.data.result) {
+                alert("Client Data Added SuccessFully");
+                GetAllClientData();
+                setIsSave(false);
+                resetClientData();
+            }
+            else {
+                alert(result.data.message);
+            }
+
+        } catch (error) {
+            console.log(error.code);
+
+        }
     }
 
-    const updateClientData = () => {
+    const editClientData=async(id)=>{
+        const result = await axios.get(Api + 'GetClientsById?id=' + id);
+        if (result.data.result) {
+            setClientObj(result.data.data);
+        }
+        else {
+            alert(result.data.message);
+        }
 
     }
+
+    const updateClientData = async() => {
+        try {
+            let result=await axios.post(Api + 'UpdateClients',clientObj)
+            if(result.data.result){
+                alert(" Client Data Updated SuccessFully");
+                GetAllClientData();
+                resetClientData();
+            }
+            
+        } catch (error) {
+            alert(error.code)
+            
+        }
+
+    }
+     const deleteClientData=async(id)=>{
+        const isDelete = window.confirm("Are you sure want to Delete");
+        if (isDelete) {
+            try {
+                const result = await axios.post(Api + 'DeleteClients?id=' + id);
+                if (result.data.result) {
+                    alert("Client Data Deleted Successfully");
+                    GetAllClientData();
+                }
+                else {
+                    alert(result.data.message);
+                }
+
+            } catch (error) {
+                alert(error.code)
+
+            }
+        }
+     }
 
     const resetClientData = () => {
         setClientObj({
@@ -97,7 +155,7 @@ const Client = () => {
                             <div className='row mt-4'>
                                 <div className='col-6'>
                                     <label><b>Pincode</b></label>
-                                    <input type='text' value={clientObj.pinCode} onChange={(event) => { inputChangeClientObj(event, 'pinCode') }} className='form-control' placeholder='enter  pincode' />
+                                    <input type='text' maxLength={6} value={clientObj.pinCode} onChange={(event) => { inputChangeClientObj(event, 'pinCode') }} className='form-control' placeholder='enter  pincode' />
                                 </div>
                                 <div className='col-6'>
                                     <label><b>State</b></label>
@@ -115,7 +173,7 @@ const Client = () => {
                                 </div>
                                 <div className='col-4'>
                                     <label><b>Contact No</b></label>
-                                    <input type='text' value={clientObj.contactNo} onChange={(event) => { inputChangeClientObj(event, 'contactNo') }} className='form-control' placeholder='enter  contactNo' />
+                                    <input type='text' maxLength={10} value={clientObj.contactNo} onChange={(event) => { inputChangeClientObj(event, 'contactNo') }} className='form-control' placeholder='enter  contactNo' />
                                 </div>
                             </div>
                             <div className='row mt-4'>
@@ -185,8 +243,8 @@ const Client = () => {
                                                 <td>{item.employeeStrength}</td>
                                                 <td>{item.address}</td>
                                                 <td>{item.contactNo}</td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><button className='btn btn-danger btn-sm' onClick={() => editClientData(item.clientId)}>Edit</button></td>
+                                                <td><button className='btn btn-primary btn-sm' onClick={() => deleteClientData(item.clientId)}>Delete</button></td>
                                             </tr>
                                         )
                                     })}
