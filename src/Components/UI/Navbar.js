@@ -1,53 +1,68 @@
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt, faUserPlus, faBars } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
 const Navbar = () => {
-    return ( 
-        <div>
+    let [flag, setFlag] = useState(false)
+    return (
 
-            
-            <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
-                <div className="container-fluid">
-                    <a className="navbar-brand" href="#">Meeting Room</a>
 
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <Link className="nav-link " to="dashboard" >Dashboard</Link>
-                            </li>
-                            <li className="nav-item">
 
-                                <Link className="nav-link active" aria-current="" to="client">Client</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="roomcreation">Room</Link>
-                            </li>
+        <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
+            {/* <div className="container-fluid"> */}
 
-                            <li className="nav-item">
-                                <Link className="nav-link " to="userpage" >Users</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link " to="package" >Package</Link>
-                            </li>
-                            
-                            <li className="nav-item">
-                                <Link className="nav-link " to="clientpackage" > Client Package</Link>
-                            </li>
 
-                            <li className="nav-item text-end">
-                                <Link className="nav-link " to="login" >Login</Link>
-                            
-                            </li>
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li className="nav-item">
+                        <Link className="nav-link " to="/" >Dashboard</Link>
+                    </li>
+                    <li className="nav-item">
 
-                            {/* <li className="nav-item">
-                                <Link className="nav-link " to="package" >Package</Link>
-                            </li> */}
-                        </ul>
+                        <Link className="nav-link active" aria-current="" to="client">Client</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="roomcreation">Room</Link>
+                    </li>
 
-                    </div>
+                    <li className="nav-item">
+                        <Link className="nav-link " to="userpage" >Users</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link " to="package" >Package</Link>
+                    </li>
+
+                    <li className="nav-item">
+                        <Link className="nav-link " to="clientpackage" > Client Package</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link " to="booking" > Booking</Link>
+                    </li>
+
+                    
+
+
+
+                </ul>
+                <div className="d-flex form-group">
+
+                    {!flag && <button className=" btn btn-outline-success me-2" type="button"><Link to='Login'><FontAwesomeIcon icon={faUserPlus} />Login</Link></button>}
+
+
+                    {flag && <button className='btn btn-outline-success me-2' type='button'>Log out</button>}
+
+
+
+
                 </div>
-            </nav>
 
-        </div>
+
+            </div>
+
+        </nav>
+
+
 
 
     );

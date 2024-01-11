@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 
 const Client = () => {
     let [ClientList, setCilentList] = useState([]);
+    let [isSave,setIsSave]=useState(false);
+    let [isLoader,setIsLoader]=useState(true);
+    let [showincard, setShowinCard] = useState(true);
 
     let [ClientObj, setClientObj] = useState(
         {
@@ -29,12 +32,18 @@ const Client = () => {
     }
 
     const SaveClient = async () => {
+        setIsSave(true);
         const result = await axios.post('https://onlinetestapi.gerasim.in/api/Meeting/AddClients', ClientObj)
         if (result.data.result) {
-            alert('Client Created Succuessfully')
-            getAllClient()
+            alert('Client Created Succuessfully');
+            setIsLoader(false);
+            setIsSave(false);
+            getAllClient();
+            resetClientData();
+            
         } else {
-            alert(result.data.message)
+            alert(result.data.message);
+            setIsSave(false);
         }
     }
     const changeFormValue = (event, key) => {
@@ -46,6 +55,7 @@ const Client = () => {
         const result = await axios.post('https://onlinetestapi.gerasim.in/api/Meeting/DeleteClients?id=' + clientId);
         if (result.data.result) {
             alert('Client Deleted Succuessfully');
+            getAllClient();
 
         } else {
             alert(result.data.message);
@@ -68,19 +78,38 @@ const Client = () => {
     const UpdateClient = async () => {
         const result = await axios.post('https://onlinetestapi.gerasim.in/api/Meeting/UpdateClients', ClientObj)
         if (result.data.result) {
-            alert('Client Updated Succuessfully')
-            getAllClient()
+            alert('Client Updated Succuessfully');
+            getAllClient();
+            resetClientData();
         } else {
             alert(result.data.message)
         }
 
     }
+
+    const resetClientData=()=>{
+        setClientObj({
+            "clientId": 0,
+            "clientName": "",
+            "companyName": "",
+            "address": "",
+            "city": "",
+            "pinCode": "",
+            "state": "",
+            "employeeStrength": 0,
+            "gstNo": "",
+            "contactNo": ""
+        })
+
+    }
+
+    
     return (
         <div>
             <div className='row container-fluid'>
                 <div className='col-4'>
                     <div className='card'>
-                        <div className='card-header bg-warning'>
+                        <div className='card-header bg-success'>
                             Create Client Form
                         </div>
                         <div className='card-body'>
@@ -130,8 +159,8 @@ const Client = () => {
                             <div className='row'>
                                 <div className='col-12 pt-3'>
 
-                                    {ClientObj.clientId == 0 && <button className='btn btn-sm btn-primary' onClick={SaveClient}>Save</button>}
-                                    {ClientObj.clientId !== 0 && <button className='btn btn-sm btn-warning' onClick={UpdateClient}>Update</button>}
+                                    {ClientObj.clientId == 0 && <button className='btn btn-sm btn-primary' onClick={SaveClient}>{isSave && <span className='spinner-border spinner-border-sm'></span>}Save</button>}
+                                    {ClientObj.clientId !== 0 && <button className='btn btn-sm bg-success' onClick={UpdateClient}>Update</button>}
 
                                 </div>
 
@@ -142,12 +171,13 @@ const Client = () => {
                 </div>
                 <div className='col-8'>
                     <div className='card'>
-                        <div className='card-header bg-warning'>
-                            Client List
+                        <div className='card-header bg-success'>
+                        <button className='btn btn-sm btn-primary text-end ' onClick={() => getAllClient(setShowinCard(!showincard))}>Client List</button>
+                            
                         </div>
                         <div className='card-body'>
                             <div className='row'>
-                                <table className='table table-bordered'>
+                            {!showincard &&    <table className='table table-bordered'>
                                     <thead>
                                         <tr>
                                             <th>Sr No</th>
@@ -160,6 +190,21 @@ const Client = () => {
                                             <th>Delete</th>
                                         </tr>
                                     </thead>
+                                    {isLoader && <tbody>
+                                <tr>
+                                    <td colSpan="8" >
+                                        <div className="spinner-border text-muted"></div>
+                                        <div className="spinner-border text-primary"></div>
+                                        <div className="spinner-border text-success"></div>
+                                        <div className="spinner-border text-info"></div>
+                                        <div className="spinner-border text-warning"></div>
+                                        <div className="spinner-border text-danger"></div>
+                                        <div className="spinner-border text-secondary"></div>
+                                        <div className="spinner-border text-dark"></div>
+                                        <div className="spinner-border text-light"></div>
+                                    </td>
+                                </tr>
+                            </tbody>}
                                     <tbody>
                                         {
                                             ClientList.map((item, index) => {
@@ -171,7 +216,7 @@ const Client = () => {
                                                     <td>{item.employeeStrength}</td>
                                                     <td>{item.contactNo}</td>
                                                     <td>
-                                                        <button className='btn btn-info btn-sm' onClick={() => editClient(item.clientId)}>edit</button>
+                                                        <button className='btn btn-primary btn-sm' onClick={() => editClient(item.clientId)}>edit</button>
                                                     </td>
                                                     <td>
                                                         <button className='btn btn-danger btn-sm' onClick={() => DeleteClient(item.clientId)}>delete</button>
@@ -180,7 +225,40 @@ const Client = () => {
                                             })
                                         }
                                     </tbody>
-                                </table>
+                                </table>}
+                                
+                        <div className='container'>
+                            <div className='row'>
+                                {showincard &&
+                                    ClientList.map((client, index) => (
+                                        <div key={index} className='col-lg-3 d-flex m-2'>
+                                            <div className="card text-dark bg-light" >
+                                                <div className="card-header">
+                                                    <p>{index + 1}</p>
+                                                    <span>Client Name:</span>{client.clientName}
+                                                </div>
+                                                <div className="card-body" style={{ 'width': '800px', 'height': "400px" }}>
+                                                    <div className='row'>
+                                                        <div className='col-12'>
+                                                           <span>Com-Name:</span> <p>{client.companyName}</p>
+                                                           <span>Address:</span><p>{client.address}</p>
+                                                           <span>Strength:</span><p>{client.employeeStrength}</p>
+                                                           <span>Number:</span><p>{client.contactNo}</p>
+                                                           <span>Active</span><p>{client.isRoomActive ? 'Yes' : 'No'}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className='row'>
+                                                        <div className='col-12'>
+                                                            <button className='btn btn-primary btn-sm m-2' onClick={() => editClient(client.roomId)}>Edit</button>
+                                                            <button className='btn btn-danger btn-sm' onClick={() => DeleteClient(client.roomId)}>Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                            </div>
+                        </div>
                             </div>
                         </div>
                     </div>

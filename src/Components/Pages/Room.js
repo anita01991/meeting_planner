@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {allMeetingRoom} from '../Services/Api';
+
 
 const Room = () => {
     let [roomData, setRoomData] = useState([]);
     let [isLoader, setIsLoader] = useState(true);
     let [isSave, setIsSave] = useState(false);
     let [roomClientList, setRoomClientList] = useState([]);
+    let [showincard, setShowinCard] = useState(true);
     let [roomObj, setRoomobj] = useState({
 
         "roomId": 0,
@@ -17,24 +20,23 @@ const Room = () => {
         "createdDate": new Date(),
         "lastUpdatetd": new Date()
     })
-
-    const Api = "https://onlinetestapi.gerasim.in/api/Meeting/";
-
+    const Api=process.env.REACT_APP_API_END_pOINT;
+      
+   
     useEffect(() => {
-        showMeetingRoomData();
+        // showMeetingRoomData();
         showClientList();
     }, [])
 
     const showMeetingRoomData = async () => {
 
-        try {
-            const result = await axios.get(Api + 'GetAllRooms');
+        allMeetingRoom().then((res)=>{
+              
             setIsLoader(false);
-            setRoomData(result.data.data);
-        } catch (error) {
-            alert(error.code)
+            setRoomData(res.data);
 
-        }
+        })        
+
     }
 
     const showClientList = async () => {
@@ -72,6 +74,7 @@ const Room = () => {
             }
             else {
                 alert(result.data.message);
+                setIsSave(false);
             }
 
         } catch (error) {
@@ -108,6 +111,8 @@ const Room = () => {
 
         }
     }
+
+
 
     const deleteMeetingRoomData = async (id) => {
         const isDelete = window.confirm("Are you sure want to Delete");
@@ -210,7 +215,7 @@ const Room = () => {
                                 <button className='btn btn-sm bg-success' onClick={resetRoomData}>Reset</button>
                             </div>
                             <div className='col-6 text-end'>
-                                {roomObj.roomId == 0 && <button className='btn btn-sm bg-success text-end' disabled={roomObj.roomName == '' || roomObj.createdDate == '' || roomObj.clientId == '' || roomObj.lastUpdatetd == '' ||
+                                {roomObj.roomId == 0 && <button className='btn btn-sm bg-success text-end' disabled={roomObj.roomName == '' ||
                                     roomObj.roomLocation == '' || roomObj.roomSeatingCapacity == ''} onClick={addMeetingRoomData}>{isSave && <span className='spinner-border spinner-border-sm'></span>}Save</button>
                                 }
 
@@ -226,15 +231,17 @@ const Room = () => {
                 <div className='card'>
                     <div className='card-header bg-success'>
                         <div className='row'>
-                            <div className='col-12 text-center'>
-                                <strong>Room Data</strong>
+                            <div className='col-12 text-end'>
+
+                                <button className='btn btn-sm btn-primary ' onClick={() => showMeetingRoomData(setShowinCard(!showincard))}>Room Data</button>
+
 
                             </div>
                         </div>
 
                     </div>
                     <div className='card-body' style={{ overflow: 'auto' }}>
-                        <table className='table table-bordered'>
+                        {!showincard && <table className='table table-bordered'>
                             <thead>
                                 <tr>
                                     <th>Sr No.</th>
@@ -263,6 +270,7 @@ const Room = () => {
                                 </tr>
                             </tbody>}
                             <tbody>
+
                                 {
                                     roomData.map((item, index) => {
                                         return (
@@ -273,21 +281,58 @@ const Room = () => {
                                                 <td>{item.roomSeatingCapacity}</td>
                                                 <td>{item.clientName}</td>
                                                 <td>{item.isRoomActive ? 'Yes' : 'No'}</td>
-                                                <td><button className='btn btn-danger btn-sm' onClick={() => editMeetingRoomData(item.roomId)}>Edit</button></td>
-                                                <td><button className='btn btn-primary btn-sm' onClick={() => deleteMeetingRoomData(item.roomId)}>Delete</button></td>
+                                                <td><button className='btn btn-primary btn-sm' onClick={() => editMeetingRoomData(item.roomId)}>Edit</button></td>
+                                                <td><button className='btn btn-danger btn-sm' onClick={() => deleteMeetingRoomData(item.roomId)}>Delete</button></td>
 
                                             </tr>)
                                     })
                                 }
 
                             </tbody>
-                        </table>
+
+                        </table>}
+
+                        <div className='container'>
+                            <div className='row'>
+                                {showincard &&
+                                    roomData.map((room, index) => (
+                                        <div key={index} className='col-lg-3 d-flex m-2'>
+                                            <div className="card text-dark bg-light" >
+                                                <div className="card-header">
+                                                    <p>{index + 1}</p>
+                                                    <span>Room Name:</span>{room.roomName}
+                                                </div>
+                                                <div className="card-body" style={{"height": "400px", 'width': '500px',  }}>
+                                                    <div className='row'>
+                                                        <div className='col-12'>
+                                                           <span>Location:</span> <p>{room.roomLocation}</p>
+                                                           <span>Capacity</span><p>{room.roomSeatingCapacity}</p>
+                                                           
+                                                           <span>Client Name:</span><p>{room.clientName}</p>
+                                                           <span>Active</span><p>{room.isRoomActive ? 'Yes' : 'No'}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className='row'>
+                                                        <div className='col-12'>
+                                                            <button className='btn btn-primary btn-sm m-2' onClick={() => editMeetingRoomData(room.roomId)}>Edit</button>
+                                                            <button className='btn btn-danger btn-sm' onClick={() => deleteMeetingRoomData(room.roomId)}>Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                            </div>
+                        </div>
+
+
+
                     </div>
 
                 </div>
             </div>
 
-        </div>
+        </div >
     );
 };
 

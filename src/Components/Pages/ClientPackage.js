@@ -12,6 +12,8 @@ const ClientPackage = () => {
     const StartPoint = 'https://onlinetestapi.gerasim.in/api/Meeting/'
 
     let [allPackage, setAllPAckage] = useState([]);
+    let [showincard, setShowinCard] = useState(true);
+    
 
 
 
@@ -22,8 +24,8 @@ const ClientPackage = () => {
         "clientPackageId": 0,
         "clientId": 0,
         "packageId": 0,
-        "createdDate": " ",
-        "lastUpdated": " ",
+        "createdDate": new Date(),
+        "lastUpdated": new Date(),
         "packageStartDate": "",
         "packageEndDate": " ",
         "isActive": true
@@ -31,7 +33,7 @@ const ClientPackage = () => {
     })
 
     useEffect(() => {
-        getAllClientPackage();
+        // getAllClientPackage();
         getAllClient();
         getAllPackage();
 
@@ -97,10 +99,14 @@ const ClientPackage = () => {
 
     const updateClientPackage = async () => {
         const result = await axios.post(StartPoint + 'UpdateClientPackage', clientPackageObj);
-        debugger;
+
         if (result.data.result) {
-            debugger;
-            alert('Client Package Updated Successfully')
+
+            alert('Client Package Updated Successfully');
+            getAllClientPackage();
+            
+
+           
         } else {
             alert(result.data.message)
         }
@@ -108,10 +114,11 @@ const ClientPackage = () => {
 
     const deleteClientPackage = async (id) => {
         const result = await axios.post(StartPoint + 'DeleteClientPackageById?id=' + id)
-        debugger;
+
         if (result.data.result) {
-            debugger;
-            alert('deleted successfully')
+           
+            alert('deleted successfully');
+            getAllClientPackage();
         } else {
             alert(result.data.message)
         }
@@ -122,8 +129,8 @@ const ClientPackage = () => {
             "clientPackageId": '0',
             "clientId": '',
             "packageId": 0,
-            "createdDate": '',
-            "lastUpdated": '',
+            "createdDate": "",
+            "lastUpdated": "",
             "packageStartDate": "",
             "packageEndDate": " ",
             "isActive": ''
@@ -170,19 +177,7 @@ const ClientPackage = () => {
                                 </div>
 
                             </div>
-                            <div className='row'>
-                                <div className='col-6'>
-                                    <label>Created Date</label>
-                                    <input type='date' value={clientPackageObj.createdDate} onChange={(e) => changeFormValue(e, 'createdDate')} />
-
-                                </div>
-                                <div className='col-6'>
-                                    <label>Last Updated</label>
-                                    <input type='date' value={clientPackageObj.lastUpdated} onChange={(e) => changeFormValue(e, 'lastUpdated')} />
-
-                                </div>
-
-                            </div>
+                          
                             <div className='row pt-2'>
                                 <div className='col-6'>
                                     <label>Package Start Date</label>
@@ -199,17 +194,21 @@ const ClientPackage = () => {
                             <div className='row pt-2'>
                                 <div className='col-6'>
 
-                                    <input type='checkbox' checked={clientPackageObj.packageId} onChange={(e) => changeCheboxValue(e)} />
+                                    <input type='checkbox' checked={clientPackageObj.isActive} onChange={(e) => changeCheboxValue(e)} />
                                     <label>Is Active</label>
 
                                 </div>
 
                             </div>
                             <div className='row'>
-                                <div className='col-6'>
+                                <div className='col-6 text-end'>
                                     {clientPackageObj.clientPackageId == 0 && <button className='btn btn-success' onClick={saveClientPackage}>Add</button>}
                                     {clientPackageObj.clientPackageId !== 0 && <button className='btn btn-warning' onClick={updateClientPackage}>Update</button>}
+
+                                </div>
+                                <div className='col-6'>
                                     <button className='btn btn-secondary' onClick={OnReset}>Reset</button>
+
 
                                 </div>
 
@@ -221,22 +220,22 @@ const ClientPackage = () => {
                 </div>
                 <div className='col-8'>
                     <div className='card'>
-                        <div className='card-header bg-success'>
-                            Client Package List
+                        <div className='card-header bg-success text-end'>
+                          
+                            <button className='btn btn-sm btn-primary text-end ' onClick={() => getAllClientPackage(setShowinCard(!showincard))}>Client List</button>
 
                         </div>
-                        <div className='card-body'>
-                            <table className='table table-bordered'>
+                       <div className='card-body'>
+                       { !showincard &&<table className='table table-bordered'>
                                 <thead>
                                     <tr>
                                         <th>Sr No</th>
                                         <th>Client Name</th>
                                         <th>Package Name</th>
-                                        <th>Created Date</th>
-                                        <th>Last Updated</th>
                                         <th>Package Start Date</th>
                                         <th>Package End Date</th>
-                                        <th>Action</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
                                     </tr>
 
                                 </thead>
@@ -258,7 +257,7 @@ const ClientPackage = () => {
                                     </tbody>
                                 }
                                 {
-                                    !isLoader && <tbody>
+                                    <tbody>
                                         {
                                             allPackage.map((item, index) => {
                                                 return (
@@ -266,13 +265,11 @@ const ClientPackage = () => {
                                                         <td>{index + 1}</td>
                                                         <td>{item.clientName}</td>
                                                         <td>{item.packageName}</td>
-                                                        <td>{item.createdDate}</td>
-                                                        <td>{item.lastUpdated}</td>
+
                                                         <td>{item.packageStartDate}</td>
                                                         <td>{item.packageEndDate}</td>
-                                                        <td>
-                                                            <button className='btn btn-info btn-sm' onClick={() => ediClientPackage(item.clientPackageId)}>Edit</button>
-                                                            <button className='btn btn-danger btn-sm' onClick={() => deleteClientPackage(item.clientPackageId)}>Delete</button>
+                                                        <td><button className='btn btn-primary btn-sm' onClick={() => ediClientPackage(item.clientPackageId)}>Edit</button></td>
+                                                        <td> <button className='btn btn-danger btn-sm' onClick={() => deleteClientPackage(item.clientPackageId)}>Delete</button>
 
                                                         </td>
                                                     </tr>
@@ -283,7 +280,39 @@ const ClientPackage = () => {
                                     </tbody>
                                 }
 
-                            </table>
+                            </table>}
+                            <div className='container'>
+                            <div className='row'>
+                                {showincard &&
+                                    allPackage.map((item, index) => (
+                                        <div key={index} className='col-sm-3 d-flex m-2'>
+                                            <div className="card text-dark bg-light" >
+                                                <div className="card-header">
+                                                    <p>{index + 1}</p>
+                                                    <span>Client Name:</span>{item.clientName}
+                                                </div>
+                                                <div className="card-body" style={{"height": "300px", 'width': '600px',  }}>
+                                                    <div className='row'>
+                                                        <div className='col-12'>
+                                                           <span>P-Name:</span> <p>{item.packageName}</p>
+                                                           <span>Start Date</span><p>{item.packageStartDate}</p>
+                                                           
+                                                           <span>End Date:</span><p>{item.packageEndDate}</p>
+                                                          
+                                                        </div>
+                                                    </div>
+                                                    <div className='row'>
+                                                        <div className='col-12'>
+                                                            <button className='btn btn-primary btn-sm m-2' onClick={() => ediClientPackage(item.clientPackageId)}>Edit</button>
+                                                            <button className='btn btn-danger btn-sm' onClick={() => deleteClientPackage(item.clientPackageId)}>Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                            </div>
+                        </div>
 
                         </div>
 

@@ -8,13 +8,16 @@ const styles = {
     textAlign: 'left',
     marginTop: '3rem',
 }
+
 const initalState = {
     UserName: '',
     UserPassword: ''
 }
+
 const baseUrl = 'https://onlinetestapi.gerasim.in/api/Meeting'
 const Login = () => {
-    const [user, setUser] = useState(initalState)
+    const [user, setUser] = useState(initalState);
+    const navigate = useNavigate();
     const [error, setError] = useState('')
     const usernameInput = useRef(null)
     const handleInput = (e) => {
@@ -32,8 +35,11 @@ const Login = () => {
         const data = await res.data;
         console.log(data)
         if(data.result) {
-            alert('successfully logged in')
+            alert('successfully logged in');
+            
+            localStorage.setItem('user', JSON.stringify(data))
             setUser({...initalState})
+            navigate('/')
             setError('')
             usernameInput.current.focus();
         } else {
