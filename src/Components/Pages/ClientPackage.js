@@ -26,8 +26,6 @@ const ClientPackage = () => {
         "packageId": 0,
         "createdDate": new Date(),
         "lastUpdated": new Date(),
-        "createdDate": newDate,
-        "lastUpdated": newDate,
         "packageStartDate": "",
         "packageEndDate": " ",
         "isActive": true
@@ -133,8 +131,6 @@ const ClientPackage = () => {
             "packageId": 0,
             "createdDate": "",
             "lastUpdated": "",
-            "createdDate": newDate,
-            "lastUpdated": newDate,
             "packageStartDate": "",
             "packageEndDate": " ",
             "isActive": ''
@@ -182,7 +178,6 @@ const ClientPackage = () => {
 
                             </div>
                           
-                           
                             <div className='row pt-2'>
                                 <div className='col-6'>
                                     <label>Package Start Date</label>
@@ -237,7 +232,6 @@ const ClientPackage = () => {
                                         <th>Sr No</th>
                                         <th>Client Name</th>
                                         <th>Package Name</th>
-                                       
                                         <th>Package Start Date</th>
                                         <th>Package End Date</th>
                                         <th>Edit</th>
@@ -276,14 +270,6 @@ const ClientPackage = () => {
                                                         <td>{item.packageEndDate}</td>
                                                         <td><button className='btn btn-primary btn-sm' onClick={() => ediClientPackage(item.clientPackageId)}>Edit</button></td>
                                                         <td> <button className='btn btn-danger btn-sm' onClick={() => deleteClientPackage(item.clientPackageId)}>Delete</button>
-                                                        
-                                                        <td>{item.packageStartDate}</td>
-                                                        <td>{item.packageEndDate}</td>
-                                                        <td>
-                                                            <button className='btn btn-info btn-sm' onClick={() => ediClientPackage(item.clientPackageId)}>Edit</button>
-                                                            </td>
-                                                            <td>
-                                                            <button className='btn btn-danger btn-sm' onClick={() => deleteClientPackage(item.clientPackageId)}>Delete</button>
 
                                                         </td>
                                                     </tr>
