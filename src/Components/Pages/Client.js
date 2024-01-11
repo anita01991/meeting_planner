@@ -171,8 +171,8 @@ const Client = () => {
                 </div>
                 <div className='col-8'>
                     <div className='card'>
-                        <div className='card-header bg-success'>
-                        <button className='btn btn-sm btn-primary text-end ' onClick={() => getAllClient(setShowinCard(!showincard))}>Client List</button>
+                        <div className='card-header bg-success text-end'>
+                        <button className='btn btn-sm btn-primary ' onClick={() => getAllClient(setShowinCard(!showincard))}>Client List</button>
                             
                         </div>
                         <div className='card-body'>

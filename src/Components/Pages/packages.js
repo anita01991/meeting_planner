@@ -4,6 +4,7 @@ const Package = () => {
 
     let [packageList, setPackageList] = useState([]);
     let [isSave, setIsSave] = useState(false);
+    let [showincard, setShowinCard] = useState(true);
     let [packageObj, setPackageObj] = useState({
         "packageId": 0,
         "packageName": "",
@@ -107,54 +108,8 @@ const Package = () => {
     return (
         <div>
             <div className='row'>
-                <div className='col-8'>
-                    <div className='card'>
-                        <div className='card-header bg-success'>
-                            <div className='row'>
-                                <div className='col-12 text-center'>
-                                    <strong>Package Data</strong>
 
-                                </div>
-
-                            </div>
-                        </div>
-                        <div className='card-body'>
-                            <table className='table table-bordered'>
-                                <thead>
-                                    <tr>
-                                        <th>Sr No</th>
-                                        <th>PackageName</th>
-                                        <th>packageCost</th>
-                                        <th>PackageDescription</th>
-                                        <th>IsPackageActive</th>
-
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        packageList.map((item, index) => {
-                                            return (<tr>
-                                                <td> {index + 1} </td>
-                                                <td> {item.packageName} </td>
-                                                <td>  {item.packageCost} </td>
-                                                <td>  {item.packageDescription} </td>
-                                                <td>{item.isPackageActive ? 'true' : 'false'}</td>
-
-                                                <td>
-                                                    <button className='btn btn-sm btn-primary' onClick={() => { editPackages(item.packageId) }}>Edit</button>
-
-                                                    <button className='btn btn-sm btn-danger' onClick={() => { deletePackages(item.packageId) }}>Delete</button>
-                                                </td>
-                                            </tr>)
-                                        })
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div className='col-4'>
+            <div className='col-4'>
                     <div className='card'>
                         <div className='card-header bg-success'>
                             <b>Create New Package</b>
@@ -201,8 +156,98 @@ const Package = () => {
                         </div>
                     </div>
                 </div>
-            </div>
 
+
+                <div className='col-8'>
+                    <div className='card'>
+                        <div className='card-header bg-success'>
+                            <div className='row'>
+                                <div className='col-12 text-end'>
+                                <button className='btn btn-sm btn-primary ' onClick={() => getAllPackages(setShowinCard(!showincard))}>package Data</button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className='card-body'>
+                        {!showincard &&  <table className='table table-bordered'>
+                                <thead>
+                                    <tr>
+                                        <th>Sr No</th>
+                                        <th>PackageName</th>
+                                        <th>packageCost</th>
+                                        <th>PackageDescription</th>
+                                        <th>IsPackageActive</th>
+
+                                        <th>Edit</th>
+                                            <th>Delete</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        packageList.map((item, index) => {
+                                            return (<tr>
+                                                <td> {index + 1} </td>
+                                                <td> {item.packageName} </td>
+                                                <td>  {item.packageCost} </td>
+                                                <td>  {item.packageDescription} </td>
+                                                <td>{item.isPackageActive ? 'true' : 'false'}</td>
+
+                                                <td>
+                                                    <button className='btn btn-sm btn-primary' onClick={() => { editPackages(item.packageId) }}>Edit</button></td>
+
+                                               <td>   <button className='btn btn-sm btn-danger' onClick={() => { deletePackages(item.packageId) }}>Delete</button>
+                                                </td>
+                                            </tr>)
+                                        })
+                                    }
+                                </tbody>
+                            </table>}
+
+
+                            <div className='container'>
+                            <div className='row'>
+                           
+                                {showincard &&
+                                    packageList.map((item, index) => (
+                                        <div key={index} className='col-lg-4 d-flex m-3'>
+                                            <div className="card text-dark bg-light" >
+                                                <div className="card-header">
+                                                    <p>{index + 1}</p> <span>Package Name:</span>{item.packageName}
+                                                   
+                                                </div>
+                                                <div className="card-body" style={{"height": "300px", 'width': '500px',  }}>
+                                                    <div className='row'>
+                                                        <div className='col-12'>
+                                                           <span>package Cost:</span> <p>{item.packageCost}</p>
+                                                           <span>Package Description :</span><p>{item.packageDescription}</p>
+                                                           
+                                                    
+                                                           <span>Active :</span><p>{item.isPackageActive ? 'true' : 'false'}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className='row'>
+                                                        <div className='col-12'>
+                                                        <button className='btn btn-sm m-2 btn-primary' onClick={() => { editPackages(item.packageId) }}>Edit</button>
+
+                                                         <button className='btn btn-sm btn-danger' onClick={() => { deletePackages(item.packageId) }}>Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+          
+</div>
         </div>
     );
 };

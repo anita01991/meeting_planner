@@ -19,6 +19,7 @@ const Booking = () => {
     let [roomList, SetRoomList] = useState([]);
     let [userList, setUserList] = useState([]);
     let [timeList, setTimeList] = useState([]);
+    let [showincard ,setShowinCard] =useState([]);
 
     let [isLoader, setIsLoader] = useState(true);
     let [isSaveLoader, setIsSaveLoder] = useState(false);
@@ -271,15 +272,14 @@ const Booking = () => {
                     <div className='card'>
                         <div className='card-header bg-success'>
                             <div className='row'>
-                                <div className='col-12 text-center'>
-                                    <strong> Room Booking Data</strong>
-
+                            <div className='col-12 text-end'>
+                                <button className='btn btn-sm btn-primary ' onClick={() =>getAllBooking(setShowinCard(!showincard))}>Booking Data</button>
                                 </div>
                             </div>
 
                         </div>
                         <div className='card-body' style={{ overflow: 'auto' }}>
-                            <table className='table table-bordered'>
+                           {!showincard && <table className='table table-bordered'>
                                 <thead>
                                     <tr>
                                         <th>Sr No.</th>
@@ -325,7 +325,42 @@ const Booking = () => {
                                         )
                                     })}
                                 </tbody>
-                            </table>
+                            </table> }
+
+                            <div className='container'>
+                            <div className='row'>
+                           
+                                {showincard &&
+                                   bookingRoomList.map((item, index) => (
+                                        <div key={index} className='col-lg-4 d-flex m-3'>
+                                            <div className="card text-dark bg-light" >
+                                                <div className="card-header">
+                                                    <p>{index + 1}</p> <span>Client Name:</span>{item.clientName}
+                                                   
+                                                </div>
+                                                <div className="card-body" style={{"height": "400px", 'width': '500px',  }}>
+                                                    <div className='row'>
+                                                        <div className='col-12'>
+                                                           <span>Room Name:</span> <p>{item.roomName}</p>
+                                                           <span>User Name :</span><p>{item.userName}</p>
+                                                           <span>bookingDate :</span><p>{item.bookingDate}</p>
+                                                           <span>From Time :</span><p>{item.fromTime}</p>
+                                                           <span>To time :</span><p>{item.toTime}</p>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                    <div className='row'>
+                                                        <div className='col-12'>
+                                                        <button className='btn btn-danger btn-sm m-2' onClick={() => editBookingRoomData(item.bookingId)}>Edit</button>
+                                                <button className='btn btn-primary btn-sm' onClick={() => deleteBookingtData(item.bookingId)}>Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                            </div>
+                        </div>
                         </div>
 
                     </div>

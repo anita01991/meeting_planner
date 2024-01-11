@@ -222,7 +222,7 @@ const ClientPackage = () => {
                     <div className='card'>
                         <div className='card-header bg-success text-end'>
                           
-                            <button className='btn btn-sm btn-primary text-end ' onClick={() => getAllClientPackage(setShowinCard(!showincard))}>Client List</button>
+                            <button className='btn btn-sm btn-primary text-end ' onClick={() => getAllClientPackage(setShowinCard(!showincard))}>Client Package List</button>
 
                         </div>
                        <div className='card-body'>
@@ -285,7 +285,7 @@ const ClientPackage = () => {
                             <div className='row'>
                                 {showincard &&
                                     allPackage.map((item, index) => (
-                                        <div key={index} className='col-sm-3 d-flex m-2'>
+                                        <div key={index} className='col-sm-4 d-flex m-3'>
                                             <div className="card text-dark bg-light" >
                                                 <div className="card-header">
                                                     <p>{index + 1}</p>

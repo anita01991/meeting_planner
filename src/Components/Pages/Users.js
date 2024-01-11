@@ -8,6 +8,7 @@ const Users = () => {
     let [usersData, setUsersData] = useState([]);
     let [clientData, setClientData] = useState([]);
     let [isSave, setIsSave] = useState(false);
+    let [showincard, setShowinCard] = useState(true);
     let [isLoader, setIsloader] = useState(true);
     let [usersObj, setUsersObj] = useState({
 
@@ -227,16 +228,15 @@ const Users = () => {
                     <div className='card'>
                         <div className='card-header bg-success'>
                             <div className='row'>
-                                <div className='col-12 text-center'>
-                                    <strong>Users Data</strong>
-
+                            <div className='col-12 text-end'>
+                                <button className='btn btn-sm btn-primary ' onClick={() =>ShowAllUsersData (setShowinCard(!showincard))}>User Data</button>
                                 </div>
                             </div>
 
                         </div>
                         <div className='card-body' style={{ overflow: 'auto' }}>
                             <div className='row mt-4'>
-                                <table className='table table-bordered'>
+                            {!showincard &&   <table className='table table-bordered'>
                                     <thead>
                                         <tr>
                                             <th>Sr No.</th>
@@ -284,6 +284,43 @@ const Users = () => {
 
                                     </tbody>
                                 </table>
+}
+
+                                <div className='container'>
+                            <div className='row'>
+                           
+                                {showincard &&
+                                   usersData.map((item, index) => (
+                                        <div key={index} className='col-lg-4 d-flex m-3'>
+                                            <div className="card text-dark bg-light" >
+                                                <div className="card-header">
+                                                    <p>{index + 1}</p> <span>User Name:</span>{item.userName}
+                                                   
+                                                </div>
+                                                <div className="card-body" style={{"height": "400px", 'width': '500px',  }}>
+                                                    <div className='row'>
+                                                        <div className='col-12'>
+                                                           <span>Password:</span> <p>{item.userPassword}</p>
+                                                           <span>Role :</span><p>{item.role}</p>
+                                                           <span>Client Name :</span><p>{ item.clientName}</p>
+                                                          
+                                                    
+                                                           <span>Active :</span><p>{item.isActive ? 'Yes' : 'No'}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className='row'>
+                                                        <div className='col-12'>
+                                                        <td><button className='btn btn-primary btn-sm m-2' onClick={() => editUsersData(item.userId)} >Edit</button></td>
+                                                        <td><button className='btn btn-danger btn-sm' onClick={() => { deleteUserData(item.userId) }}>Delete</button></td>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                            </div>
+                        </div>
+
                             </div>
                         </div>
                     </div>
